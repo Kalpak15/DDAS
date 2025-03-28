@@ -8,7 +8,7 @@ const fs=require('fs')
 
 
 
-require('dotenv').config()
+require('dotenv').config(
 
 // Email transporter setup
 const transporter = nodemailer.createTransport({

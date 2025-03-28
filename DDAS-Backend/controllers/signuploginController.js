@@ -6,7 +6,7 @@ const User = require('../models/UserModel');
 const OTP = require('../models/OTPModel');
 const fs=require('fs')
 
-require('dotenv').config()
+r
 
 require('dotenv').config()
 

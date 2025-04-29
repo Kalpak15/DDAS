@@ -3,7 +3,6 @@ const jwt=require('jsonwebtoken')
 const cloudinary=require('../config/cloudinary')
 const nodemailer = require('nodemailer');
 const User = require('../models/UserModel');
-const OTP = require('../models/OTPModel');
 const fs=require('fs')
 
 
@@ -19,191 +18,110 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Generate a 6-digit OTP
-const generateOTP = () => {
+
+function generateVerificationCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
-};
+}
 
-// Step 1: Signup with OTP request
 const signup = async (req, res) => {
-  const {
-    email,
-    password,
-    confirmPassword,
-    firstName,
-    middleName,
-    lastName,
-    age,
-    gender,
-    countryCode,
-    phoneNumber,
-    address,
-  } = req.body;
-
-  // Basic validation for all required fields
-  if (  email || password ||  confirmPassword || firstName || middleName || lastName ||   age||  gender ||  countryCode || phoneNumber || address) {
-    return res.status(400).json({ success: false, message: 'All required fields must be provided' });
-  }
-  
-//   if (!formData.profilePicture) {
-//     alert('Please select a profile picture');
-//     return;
-// }
-  // Check if password matches confirmPassword
-  if (password !== confirmPassword) {
-    return res.status(400).json({ success: false, message: 'Password and Confirm Password do not match' });
-  }
-
   try {
-    // Check if user already exists
+    const {
+      firstName,
+      middleName,
+      lastName,
+      phoneNumber,
+      address,
+      age,
+      gender,
+      email,
+      password,
+      confirmPassword,
+      
+    } = req.body;
+
+    if (
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !address ||
+      !age ||
+      !gender 
+    ) {
+      return res.status(400).json({ message: "Required data missing" });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match." });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ success: false, message: 'Email already registered' });
+      return res.status(400).json({ message: "User already exists." });
     }
-    
-    // let profilePicture = null;
-    
-    // if (req.file) {
-    //   console.log('File:', req.file)
-    //   const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-    //     folder: "profile_pictures",
-    //   });
-    //   profilePicture = {
-    //     url: uploadResult.secure_url,
-    //     publicId: uploadResult.public_id,
-    //   };
-    //   fs.unlinkSync(req.file.path);
-    // }
-    
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     let profilePicture = null;
     if (req.file) {
-      console.log('Uploading to Cloudinary:', req.file.path);
-      try {
-        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'profile_pictures',
-        });
-        console.log('Cloudinary Upload Result:', uploadResult);
-        profilePicture = {
-          url: uploadResult.secure_url,
-          publicId: uploadResult.public_id,
-        };
-        fs.unlinkSync(req.file.path); // Clean up the temporary file
-      } catch (uploadError) {
-        console.error('Cloudinary Upload Error:', uploadError);
-        return res.status(500).json({ success: false, message: 'Failed to upload profile picture to Cloudinary' });
-      }
-    } else {
-      console.log('No file uploaded, proceeding without profile picture');
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "profile_pictures",
+      });
+      profilePicture = {
+        url: uploadResult.secure_url,
+        publicId: uploadResult.public_id,
+      };
+      fs.unlinkSync(req.file.path);
     }
-    
 
-    // Generate OTP
-    const otp = generateOTP();
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      firstName,
+      middleName,
+      lastName,
+      phoneNumber,
+      address,
+      age: Number(age), // Ensure it's saved as a number
+      gender,
+      profilePicture: profilePicture?.url,
+    });
 
-    // Store OTP and all signup data temporarily in OTP collection
-    await OTP.findOneAndUpdate(
-      { email },
-      {
-        otp,
-        expiresAt,
-        signupData: {
-          email,
-          password, // Stored unhashed temporarily
-          firstName,
-          middleName,
-          lastName,
-          age,
-          gender,
-          countryCode,
-          phoneNumber,
-          address,
-          profilePicture,
-          role: role || 'user',
-        },
-      },
-      { upsert: true, new: true }
-    );
-    
-    
+    const verificationCode = generateVerificationCode();
+    const tokenExpiration = new Date(Date.now() + 15 * 60 * 1000);
 
-    // Send OTP via email
+    newUser.emailVerificationToken = verificationCode;
+    newUser.emailVerificationTokenExpires = tokenExpiration;
+    await newUser.save();
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your Signup OTP',
-      text: `Your OTP for signup is ${otp}. It expires in 5 minutes.`,
+      to: newUser.email,
+      subject: "Email Verification",
+      text: `Your verification code is: ${verificationCode}. Please enter this code to verify your email.`,
     };
-
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ success: true, message: 'OTP sent to your email', email });
-  } catch (error) {
-    console.error('Error in signupRequestOTP:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
-};
-
-// Step 2: Verify OTP and complete signup
-const verifySignupOTP = async (req, res) => {
-  const { email, otp } = req.body;
-  console.log(email)
-  console.log(otp)
-  // Basic validation
-  if (!email || !otp) {
-    return res.status(400).json({ success: false, message: 'Email and OTP are required' });
-  }
-
-  try {
-    // Check OTP
-    const otpRecord = await OTP.findOne({ email, otp });
-    if (!otpRecord || otpRecord.expiresAt < new Date()) {
-      await OTP.deleteOne({ email });
-      return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
-    }
-
-    // Extract signup data from OTP record
-    const { signupData } = otpRecord;
-
-    // Check if user already exists (double-check)
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: 'Email already registered' });
-    }
-
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(signupData.password, salt);
-
-    // Create new user
-    const user = new User({
-      email: signupData.email,
-      password: hashedPassword,
-      firstName: signupData.firstName,
-      middleName: signupData.middleName,
-      lastName: signupData.lastName,
-      age: signupData.age,
-      gender: signupData.gender,
-      countryCode: signupData.countryCode,
-      phoneNumber: signupData.phoneNumber,
-      address: signupData.address,
-      profilePicture :signupData.profilePicture?.url,
-      role: signupData.role,
+    res.status(201).json({
+      success: true,
+      message: "Signup successful. Please check your email for verification.",
+      data: { email: newUser.email },
+      publicId: profilePicture?.publicId,
     });
-    console.log(user)
-    await user.save();
-
-    // Delete OTP record
-    await OTP.deleteOne({ email });
-
-    res.status(201).json({ success: true, message: 'Signup completed successfully' });
   } catch (error) {
-    console.error('Error in verifySignupOTP:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to upload profile",
+      error: error.message,
+    });
   }
 };
 
-
+// Other functions remain unchanged
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -215,6 +133,10 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password." });
+    }
+
+    if (!user.isEmailVerified) {
+      return res.status(400).json({ message: "Email not verified. Please verify your email to log in." });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
@@ -231,8 +153,7 @@ const login = async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: "2h" }
     );
-    
-    
+
     res.status(200).json({
       message: "Login successful.",
       userId: user._id,
@@ -283,10 +204,33 @@ const changePassword = async (req, res) => {
 };
 
 
-module.exports = { signup, verifySignupOTP,login,changePassword};
+const verifyEmail = async (req, res) => {
+  try {
+    const { email, verificationCode } = req.body;
+    const user = await User.findOne({ email }).select(
+      "+emailVerificationToken +emailVerificationTokenExpires"
+    );
 
+    if (!user) return res.status(400).json({ success: false, message: "User not found." });
+    if (user.isEmailVerified) return res.status(400).json({ success: false, message: "Email already verified." });
 
+    const isTokenValid = user.emailVerificationToken === verificationCode;
+    const isTokenExpired = user.emailVerificationTokenExpires < new Date();
 
+    if (!isTokenValid || isTokenExpired) {
+      return res.status(400).json({ success: false, message: "Invalid or expired verification code." });
+    }
 
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationTokenExpires = undefined;
+    await user.save();
+    res.status(200).json({ success: true, message: "Email verified successfully." });
 
-// $2b$10$FJ6ACpprvKlRru3DzerkG.hafNf/6f.sBdznxeHDlFF6F6CA0rZX6
+  } catch (error) {
+    res.status(500).json({ 
+   success: false, message: error.message });
+  }
+};
+
+module.exports = { signup, login, changePassword, verifyEmail }

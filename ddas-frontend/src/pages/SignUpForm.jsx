@@ -1,273 +1,3 @@
-// import React from 'react';
-// import { Formik, Form, Field } from 'formik';
-// import axios from 'axios';
-// import api from '../api/api'
-// import toast from 'react-hot-toast';
-// import { useNavigate, Link } from 'react-router-dom';
-
-// const SignupForm = () => {
-//   const navigate = useNavigate();
-
-//   const handleSignup = async (values, { setSubmitting }) => {
-//     try {
-//       const formData = new FormData();
-//       Object.keys(values).forEach(key => {
-//         formData.append(key, values[key]);
-//       });
-      
-//       if (values.profilePicture) {
-//         formData.append('profilePicture', values.profilePicture);
-//       }
-
-//       const response = await axios.post('http://localhost:4000/v1/auth/signup', formData, {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//         },
-//       });
-
-//       if (response.data.success) {
-//         toast.success('OTP sent to your email');
-//         navigate('/verify-otp', { state: { email: values.email } });
-//       }
-//     } catch (error) {
-//       toast.error(error.response?.data?.message || 'Signup failed');
-//     } finally {
-//       setSubmitting(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-4xl mx-auto">
-//         <div className="text-center mb-12">
-//           <h2 className="text-4xl font-extrabold text-gray-900 mb-2">
-//             Create your account
-//           </h2>
-//           <p className="text-lg text-gray-600">
-//             Join us to get started with your journey
-//           </p>
-//         </div>
-
-//         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
-//           <div className="p-8">
-//             <Formik
-//               initialValues={{
-//                 email: '',
-//                 password: '',
-//                 confirmPassword: '',
-//                 firstName: '',
-//                 middleName: '',
-//                 lastName: '',
-//                 age: '',
-//                 gender: '',
-//                 countryCode: '+91',
-//                 phoneNumber: '',
-//                 address: '',
-//                 organization_name: '',
-//                 organization_id: '',
-//                 profilePicture: null,
-//               }}
-//               onSubmit={handleSignup}
-//             >
-//               {({ setFieldValue }) => (
-//                 <Form className="space-y-8">
-//                   {/* Profile Section */}
-//                   <div className="bg-gray-50 p-6 rounded-lg">
-//                     <h3 className="text-xl font-semibold text-gray-900 mb-6">Profile Information</h3>
-//                     <div className="mb-6">
-//                       <label className="block text-sm font-medium text-gray-700 mb-2">
-//                         Profile Picture
-//                       </label>
-//                       <input
-//                         type="file"
-//                         onChange={(event) => {
-//                           setFieldValue("profilePicture", event.currentTarget.files[0]);
-//                         }}
-//                         className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-//                       />
-//                     </div>
-
-//                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           First Name
-//                         </label>
-//                         <Field
-//                           name="firstName"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="John"
-//                         />
-//                       </div>
-
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Middle Name
-//                         </label>
-//                         <Field
-//                           name="middleName"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="David"
-//                         />
-//                       </div>
-
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Last Name
-//                         </label>
-//                         <Field
-//                           name="lastName"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="Smith"
-//                         />
-//                       </div>
-//                     </div>
-
-//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Age
-//                         </label>
-//                         <Field
-//                           name="age"
-//                           type="number"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="25"
-//                         />
-//                       </div>
-
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Gender
-//                         </label>
-//                         <Field
-//                           as="select"
-//                           name="gender"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                         >
-//                           <option value="">Select Gender</option>
-//                           <option value="male">Male</option>
-//                           <option value="female">Female</option>
-//                           <option value="other">Other</option>
-//                         </Field>
-//                       </div>
-//                     </div>
-//                   </div>
-
-//                   {/* Contact Section */}
-//                   <div className="bg-gray-50 p-6 rounded-lg">
-//                     <h3 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
-//                     <div className="space-y-6">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Email
-//                         </label>
-//                         <Field
-//                           name="email"
-//                           type="email"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="john@example.com"
-//                         />
-//                       </div>
-
-//                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                         <div>
-//                           <label className="block text-sm font-medium text-gray-700 mb-2">
-//                             Country Code
-//                           </label>
-//                           <Field
-//                             name="countryCode"
-//                             className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                             placeholder="+91"
-//                           />
-//                         </div>
-
-//                         <div>
-//                           <label className="block text-sm font-medium text-gray-700 mb-2">
-//                             Phone Number
-//                           </label>
-//                           <Field
-//                             name="phoneNumber"
-//                             className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                             placeholder="9876543210"
-//                           />
-//                         </div>
-//                       </div>
-
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Address
-//                         </label>
-//                         <Field
-//                           name="address"
-//                           as="textarea"
-//                           rows="3"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="Enter your full address"
-//                         />
-//                       </div>
-//                     </div>
-//                   </div>
-
-                  
-
-//                   {/* Password Section */}
-//                   <div className="bg-gray-50 p-6 rounded-lg">
-//                     <h3 className="text-xl font-semibold text-gray-900 mb-6">Security</h3>
-//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Password
-//                         </label>
-//                         <Field
-//                           name="password"
-//                           type="password"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="••••••••"
-//                         />
-//                       </div>
-
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Confirm Password
-//                         </label>
-//                         <Field
-//                           name="confirmPassword"
-//                           type="password"
-//                           className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-//                           placeholder="••••••••"
-//                         />
-//                       </div>
-//                     </div>
-//                   </div>
-
-//                   <div className="flex items-center justify-between pt-6">
-//                     <p className="text-sm text-gray-600">
-//                       Already have an account?{' '}
-//                       <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-//                         Sign in
-//                       </Link>
-//                     </p>
-//                     <button
-//                       type="submit"
-//                       className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-//                     >
-//                       Create Account
-//                     </button>
-//                   </div>
-//                 </Form>
-//               )}
-//             </Formik>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignupForm;
-
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -317,7 +47,7 @@ const SignupForm = () => {
         data.append(key, formData[key]);
       });
 
-      const response = await axios.post('http://localhost:4000/v1/auth/signup', data, {
+      const response = await axios.post('http://localhost:5050/v1/auth/signup', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -325,8 +55,8 @@ const SignupForm = () => {
 
       if (response.data.success) {
         toast.success('OTP sent to your email');
-        navigate('/verify-otp', { state: { email: formData.email } });
-      }
+        navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);
+      }    
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signup failed');
     } finally {
@@ -430,9 +160,9 @@ const SignupForm = () => {
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
                       <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 </div>
@@ -541,7 +271,7 @@ const SignupForm = () => {
                     Sign in
                   </Link>
                 </p>
-                <button
+                <button onClick={handleSubmit}
                   type="submit"
                   disabled={isSubmitting}
                   className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"

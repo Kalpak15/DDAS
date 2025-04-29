@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const upload =require('../utils/multer')
-const { signup, verifySignupOTP,login,changePassword} = require('../controllers/signuploginController');
+const { signup, verifyEmail,login,changePassword} = require('../controllers/signuploginController');
 
 const {forgotPassword,verifyOTP,resetPassword,resendOTP} = require('../controllers/authController');
 
@@ -9,7 +9,7 @@ const {forgotPassword,verifyOTP,resetPassword,resendOTP} = require('../controlle
 
 router.post('/signup',upload.single("profilePicture"), signup); 
 // router.post('/login', login); 
-router.post('/verify-otp', verifySignupOTP); 
+router.post('/verify-email', verifyEmail); 
 router.post('/login', login);
 router.post('/changepassword', changePassword);
 

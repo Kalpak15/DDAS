@@ -4,18 +4,19 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate, Link } from 'react-router-dom';
 
+
 const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('/api/auth/login', values);
+      const response = await axios.post('http://localhost:5050/v1/auth/login', values);
       
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.userId);
         toast.success('Login successful');
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');

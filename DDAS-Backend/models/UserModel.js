@@ -62,12 +62,10 @@ const userSchema = new mongoose.Schema({
     type: String, // Stores file path or URL
     trim: true, // Optional field
   },
-  role: {
-    type: String,
-    required: [true, 'Role is required'],
-    enum: ['user', 'admin', 'employee'], // Restrict to specific roles
-    default: 'user', // Default to 'user' if not provided
-  },
+  isEmailVerified: { type: Boolean, default: false },
+  emailVerificationToken: { type: String },
+  emailVerificationTokenExpires: { type: Date },
+  
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set creation date

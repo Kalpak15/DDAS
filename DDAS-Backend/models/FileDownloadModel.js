@@ -23,6 +23,10 @@ const fileDownloadSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
+  cloudinaryUrl: {
+    type : String,
+  }
+  });
+
 
 module.exports = mongoose.model('FileDownload', fileDownloadSchema);

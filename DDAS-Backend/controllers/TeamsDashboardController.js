@@ -1,6 +1,8 @@
 const Team = require('../models/TeamSchema'); // Adjust path to your Team model
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const mongoose = require('mongoose');
 const FileDownload = require('../models/FileDownloadModel')
 // Get Team Details
 const getTeamDetails = async (req, res) => {
@@ -61,65 +63,141 @@ const uploadFile = async (req, res) => {
 };
 
 
-
-
-// All is correct
-
+// It the whole who is
 // const downloadFile = async (req, res) => {
 //   try {
 //     const teamId = req.params.teamId;
 //     const fileId = req.params.fileId;
 //     const userId = req.user.userId;
+//     console.log('Download request:', { teamId, fileId, userId });
 
+//     // Validate ObjectIDs
+//     if (!mongoose.Types.ObjectId.isValid(teamId) || !mongoose.Types.ObjectId.isValid(fileId)) {
+//       console.log('Invalid ID format:', { teamId, fileId });
+//       return res.status(400).json({ message: 'Invalid teamId or fileId' });
+//     }
+
+//     // Find the team
 //     const team = await Team.findById(teamId).populate('files.downloadedBy', 'email');
 //     if (!team) {
+//       console.log('Team not found:', teamId);
 //       return res.status(404).json({ message: 'Team not found' });
 //     }
+//     console.log('Team found:', team._id);
 
 //     const file = team.files.id(fileId);
 //     if (!file) {
+//       console.log('File not found:', fileId);
 //       return res.status(404).json({ message: 'File not found' });
 //     }
+//     console.log('File found:', { fileId, fileName: file.name, filePath: file.path });
 
-//     // Check central repository for existing download
+//     // Check if the file has been downloaded by anyone in the team
 //     const existingDownload = await FileDownload.findOne({
 //       teamId,
 //       fileName: file.name,
 //     }).populate('downloadedBy', 'email');
-
-//     console.log('Existing download record:', existingDownload); // Debug log
-//     console.log('Search criteria:', { teamId, fileName: file.name }); // Debug log
+//     console.log('Existing download record:', existingDownload);
 
 //     if (existingDownload) {
-//       const fileUrl = existingDownload._id
-//         ? `http://localhost:5050/v1/teams/files/${existingDownload._id}`
-//         : `http://localhost:5050/v1/files/invalid`; // Fallback URL
-//       console.log('Generated fileUrl:', fileUrl); // Debug log
 //       const downloaderEmail = existingDownload.downloadedBy
 //         ? existingDownload.downloadedBy.email
 //         : 'an unknown user';
 //       const message = `This file has already been downloaded by ${downloaderEmail}.`;
+//       let cloudinaryUrl = existingDownload.cloudinaryUrl;
+
+//       if (!cloudinaryUrl) {
+//         console.log('cloudinaryUrl missing, re-uploading...');
+//         const filePath = file.path;
+//         if (!fs.existsSync(filePath)) {
+//           return res.status(404).json({ message: `File not found at path: ${filePath}` });
+//         }
+//         try {
+//           const uploadResult = await cloudinary.uploader.upload(filePath, {
+//             resource_type: 'raw',
+//             public_id: `team_files/teams/${teamId}/${fileId}/${file.name}`, // Specify the folder here
+//             overwrite: true,
+//           });
+//           cloudinaryUrl = uploadResult.secure_url;
+//           existingDownload.cloudinaryUrl = cloudinaryUrl;
+//           await existingDownload.save();
+//           console.log('Re-uploaded to Cloudinary:', cloudinaryUrl);
+//         } catch (uploadError) {
+//           console.error('Cloudinary re-upload failed:', uploadError);
+//           return res.status(500).json({ message: 'Failed to re-upload to Cloudinary', error: uploadError.message });
+//         }
+//       }
+
 //       return res.status(403).json({
 //         message,
-//         fileUrl,
+//         fileUrl: cloudinaryUrl,
 //       });
 //     }
 
-//     // Record download in central repository
+//     // File not downloaded yet, proceed with download process
+//     const filePath = file.path;
+//     if (!fs.existsSync(filePath)) {
+//       console.log('File not found at path:', filePath);
+//       return res.status(404).json({ message: `File not found at path: ${filePath}` });
+//     }
+
+//     // Upload to Cloudinary in the specified folder
+//     let cloudinaryUrl;
+//     try {
+//       const uploadResult = await cloudinary.uploader.upload(filePath, {
+//         resource_type: 'raw',
+//         public_id: `profile_pictures/teams/${teamId}/${fileId}/${file.name}`, // Specify the folder here
+//         overwrite: true,
+//       });
+//       cloudinaryUrl = uploadResult.secure_url;
+//       console.log('Uploaded to Cloudinary:', cloudinaryUrl);
+//     } catch (uploadError) {
+//       console.error('Cloudinary upload failed:', uploadError);
+//       return res.status(500).json({ message: 'Failed to upload to Cloudinary', error: uploadError.message });
+//     }
+
+//     // Update team.files with downloadedBy
+//     const existingFileInTeam = team.files.find((f) => f._id && f._id.toString() === fileId);
+//     if (existingFileInTeam) {
+//       existingFileInTeam.downloadedBy = userId;
+//     } else {
+//       team.files.push({
+//         name: file.name,
+//         path: file.path,
+//         uploadedAt: new Date(),
+//         downloadedBy: userId,
+//       });
+//     }
+//     await team.save({ validateBeforeSave: true });
+//     console.log('Updated team.files with downloadedBy:', { fileId, fileName: file.name });
+
+//     // Record download in FileDownload collection
 //     const fileDownload = new FileDownload({
 //       fileName: file.name,
 //       filePath: file.path,
 //       teamId,
 //       downloadedBy: userId,
+//       cloudinaryUrl,
 //     });
 //     await fileDownload.save();
+//     console.log('Download recorded:', { fileName: file.name, teamId });
 
-//     res.download(file.path, file.name);
+//     // Stream the file for download
+//     res.set({
+//       'Content-Type': 'application/octet-stream',
+//       'Content-Disposition': `attachment; filename="${file.name}"`,
+//     });
+//     fs.createReadStream(filePath).pipe(res);
 //   } catch (error) {
-//     console.error('Error downloading file:', error);
+//     console.error('Error serving file:', error);
 //     res.status(500).json({ message: 'Server error', error: error.message });
 //   }
 // };
+
+// module.exports = { downloadFile };
+
+
+
 
 
 const downloadFile = async (req, res) => {
@@ -127,81 +205,167 @@ const downloadFile = async (req, res) => {
     const teamId = req.params.teamId;
     const fileId = req.params.fileId;
     const userId = req.user.userId;
+    console.log('Download request:', { teamId, fileId, userId });
 
-    // Find the team and populate downloadedBy for existing files
+    // Validate ObjectIDs
+    if (!mongoose.Types.ObjectId.isValid(teamId) || !mongoose.Types.ObjectId.isValid(fileId)) {
+      console.log('Invalid ID format:', { teamId, fileId });
+      return res.status(400).json({ message: 'Invalid teamId or fileId' });
+    }
+
+    // Find the team
     const team = await Team.findById(teamId).populate('files.downloadedBy', 'email');
     if (!team) {
+      console.log('Team not found:', teamId);
       return res.status(404).json({ message: 'Team not found' });
     }
+    console.log('Team found:', team._id);
 
     const file = team.files.id(fileId);
     if (!file) {
+      console.log('File not found:', fileId);
       return res.status(404).json({ message: 'File not found' });
     }
-  
-    // Check central repository for existing download
+    console.log('File found:', { fileId, fileName: file.name, filePath: file.path });
+
+    // Determine file type based on extension
+    const fileExtension = path.extname(file.name).toLowerCase().replace('.', '');
+    const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
+    const isImage = imageExtensions.includes(fileExtension);
+    const resourceType = isImage ? 'image' : 'raw';
+    console.log('File extension:', fileExtension, 'Is image:', isImage, 'Resource type:', resourceType);
+
+    // Check if the file has been downloaded by anyone in the team
     const existingDownload = await FileDownload.findOne({
       teamId,
       fileName: file.name,
     }).populate('downloadedBy', 'email');
-
-    console.log('Existing download record:', existingDownload); // Debug log
-    console.log('Search criteria:', { teamId, fileName: file.name }); // Debug log
+    console.log('Existing download record:', existingDownload);
 
     if (existingDownload) {
-      const fileUrl = existingDownload._id
-        ? `http://localhost:5050/v1/teams/files/${existingDownload._id}`
-        : `http://localhost:5050/v1/files/invalid`; // Fallback URL
-      console.log('Generated fileUrl:', fileUrl); // Debug log
       const downloaderEmail = existingDownload.downloadedBy
         ? existingDownload.downloadedBy.email
         : 'an unknown user';
       const message = `This file has already been downloaded by ${downloaderEmail}.`;
+      let cloudinaryUrl = existingDownload.cloudinaryUrl;
+
+      if (!cloudinaryUrl) {
+        console.log('cloudinaryUrl missing, re-uploading...');
+        const filePath = file.path;
+        if (!fs.existsSync(filePath)) {
+          return res.status(404).json({ message: `File not found at path: ${filePath}` });
+        }
+        try {
+          const uploadResult = await cloudinary.uploader.upload(filePath, {
+            resource_type: resourceType, // Dynamically set resource type
+            public_id: `profile_pictures/teams/${teamId}/${fileId}/${file.name}`,
+            overwrite: true,
+          });
+          cloudinaryUrl = uploadResult.secure_url;
+          existingDownload.cloudinaryUrl = cloudinaryUrl;
+          await existingDownload.save();
+          console.log('Re-uploaded to Cloudinary:', cloudinaryUrl);
+
+          // Delete local file after successful upload (no streaming needed here)
+          try {
+            fs.unlinkSync(filePath);
+            console.log('Deleted local file after re-upload:', filePath);
+          } catch (deleteError) {
+            console.error('Failed to delete local file after re-upload:', deleteError);
+          }
+        } catch (uploadError) {
+          console.error('Cloudinary re-upload failed:', uploadError);
+          return res.status(500).json({ message: 'Failed to re-upload to Cloudinary', error: uploadError.message });
+        }
+      }
+
       return res.status(403).json({
         message,
-        fileUrl,
+        fileUrl: cloudinaryUrl,
       });
     }
 
-    // Check if the file already exists in team.files (to avoid duplicates)
+    // File not downloaded yet, proceed with download process
+    const filePath = file.path;
+    if (!fs.existsSync(filePath)) {
+      console.log('File not found at path:', filePath);
+      return res.status(404).json({ message: `File not found at path: ${filePath}` });
+    }
+
+    // Upload to Cloudinary in the specified folder
+    let cloudinaryUrl;
+    try {
+      const uploadResult = await cloudinary.uploader.upload(filePath, {
+        resource_type: resourceType, // Dynamically set resource type
+        public_id: `profile_pictures/teams/${teamId}/${fileId}/${file.name}`,
+        overwrite: true,
+      });
+      cloudinaryUrl = uploadResult.secure_url;
+      console.log('Uploaded to Cloudinary:', cloudinaryUrl);
+    } catch (uploadError) {
+      console.error('Cloudinary upload failed:', uploadError);
+      return res.status(500).json({ message: 'Failed to upload to Cloudinary', error: uploadError.message });
+    }
+
+    // Update team.files with downloadedBy
     const existingFileInTeam = team.files.find((f) => f._id && f._id.toString() === fileId);
-    if (!existingFileInTeam) {
-      // Add the file to team.files if it’s not already present
+    if (existingFileInTeam) {
+      existingFileInTeam.downloadedBy = userId;
+    } else {
       team.files.push({
         name: file.name,
         path: file.path,
-        uploadedAt: file.uploadedAt || new Date(), // Use existing uploadedAt or current time
-        downloadedBy: userId, // Record the downloader
+        uploadedAt: new Date(),
+        downloadedBy: userId,
       });
-      await team.save({ validateBeforeSave: true });
-      console.log('File added to team.files:', { fileId, fileName: file.name });
-    } else {
-      // Update downloadedBy if the file already exists
-      existingFileInTeam.downloadedBy = userId;
-      await team.save({ validateBeforeSave: true });
-      console.log('Updated downloadedBy in team.files:', { fileId, fileName: file.name });
     }
+    await team.save({ validateBeforeSave: true });
+    console.log('Updated team.files with downloadedBy:', { fileId, fileName: file.name });
 
-    // Record download in central repository
+    // Record download in FileDownload collection
     const fileDownload = new FileDownload({
       fileName: file.name,
       filePath: file.path,
       teamId,
       downloadedBy: userId,
+      cloudinaryUrl,
     });
     await fileDownload.save();
-    console.log('File download recorded in filedownloads:', { fileName: file.name, teamId });
+    console.log('Download recorded:', { fileName: file.name, teamId });
 
-    // Serve the file for download
-    const filePath = path.join(__dirname, '../Uploads', file.path);
-    res.download(filePath, file.name);
+    // Stream the file for download, then delete it
+    res.set({
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${file.name}"`,
+    });
+
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
+
+    // Delete the file after streaming is complete
+    readStream.on('end', () => {
+      fs.unlink(filePath, (deleteError) => {
+        if (deleteError) {
+          console.error('Failed to delete local file after streaming:', deleteError);
+        } else {
+          console.log('Deleted local file after streaming:', filePath);
+        }
+      });
+    });
+
+    readStream.on('error', (streamError) => {
+      console.error('Error streaming file:', streamError);
+      res.status(500).json({ message: 'Error streaming file', error: streamError.message });
+    });
   } catch (error) {
-    console.error('Error downloading file:', error);
+    console.error('Error serving file:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
 module.exports = { downloadFile };
+
+
 
 
 

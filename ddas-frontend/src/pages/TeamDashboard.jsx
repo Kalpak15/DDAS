@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -75,58 +73,45 @@ const TeamDashboard = () => {
     try {
       const response = await axios.get(`http://localhost:5050/v1/teams/${teamId}/download/${fileId}`, {
         headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob',
       });
-
-      if (response.status === 200) {
-        const blobResponse = await axios.get(`http://localhost:5050/v1/teams/${teamId}/download/${fileId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-          responseType: 'blob',
-        });
-        const url = window.URL.createObjectURL(new Blob([blobResponse.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        toast.success('File downloaded successfully');
-      }
+  
+      // Status 200: File stream received, trigger download
+      const url = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      toast.success('File downloaded successfully');
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        const { message = 'File already downloaded.', fileUrl = null } = error.response.data;
-        if (!fileUrl || fileUrl.includes('invalid')) {
-          toast.error(`Unable to access file. Please contact support. File URL: ${fileUrl || 'not provided'}`);
-        } else {
-          toast.error(
-            <div>
-              <p>{message}</p>
-              <br />
-              <button
-                onClick={() => {
-                  fetch(fileUrl, { headers: { Authorization: `Bearer ${token}` } })
-                    .then((response) => {
-                      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                      return response.blob();
-                    })
-                    .then((blob) => {
-                      const url = window.URL.createObjectURL(blob);
-                      window.open(url, '_blank');
-                      console.log('Opened URL with blob:', url);
-                    })
-                    .catch((err) => {
-                      console.error('Failed to open URL:', err);
-                      toast.error('Failed to view file. Check server status.');
-                    });
-                  console.log('Attempted to open URL:', fileUrl);
-                }}
-                className="text-blue-600 underline"
-              >
-                View the file in the central repository
-              </button>
-            </div>,
-            { duration: 5000 }
-          );
-        }
+        // Status 403: File already downloaded, parse JSON from blob
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            const { message, fileUrl } = data;
+            toast.error(
+              <div>
+                <p>{message}</p>
+                <br />
+                <button
+                  onClick={() => window.open(fileUrl, '_blank')}
+                  className="text-blue-600 underline"
+                >
+                  View the file
+                </button>
+              </div>,
+              { duration: 5000 }
+            );
+          } catch (parseError) {
+            console.error('Error parsing JSON:', parseError);
+            toast.error('Failed to process server response');
+          }
+        };
+        reader.readAsText(error.response.data);
       } else {
         console.error('Error downloading file:', error);
         toast.error('Failed to download file');
@@ -155,16 +140,6 @@ const TeamDashboard = () => {
       console.error('Error removing file:', error);
       const errorMessage = error.response?.data?.message || 'Failed to remove file';
       toast.error(errorMessage, { duration: 5000 });
-    }
-  };
-
-  const downloadFromCentralRepo = async (fileUrl, fileName, token) => {
-    try {
-      window.open(fileUrl, '_blank');
-      toast.success('Redirected to view file in central repository');
-    } catch (error) {
-      console.error('Error accessing central repository:', error);
-      toast.error('Failed to access file in central repository');
     }
   };
 

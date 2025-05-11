@@ -9,6 +9,7 @@ const fileDownloadSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hash: { type: String, required: true },
   teamId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',

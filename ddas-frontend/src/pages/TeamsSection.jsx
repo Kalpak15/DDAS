@@ -235,7 +235,7 @@ const TeamsSection = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-4xl relative z-10">
                 {/* Enhanced header with gradient text */}
                 <div className="text-center mb-12">
-                    <h2 className="text-5xl md:text-6xl font-black text-black mb-4 animate-fadeInUp">
+                    <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 animate-fadeInUp">
                         My Teams
                     </h2>
                     <div className="w-24 h-1 bg-gradient-to-r from-black to-blue-600 mx-auto rounded-full"></div>

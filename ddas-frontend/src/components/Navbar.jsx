@@ -1,12 +1,130 @@
+// // import { useState } from 'react';
+// // import { Link, useNavigate } from 'react-router-dom';
+
+// // function Navbar() {
+// //   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// //   const navigate = useNavigate();
+
+// //   const toggleMobileMenu = () => {
+// //     setIsMobileMenuOpen(!isMobileMenuOpen);
+// //   };
+
+// //   return (
+// //     <nav className="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+// //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+// //         <div className="flex items-center justify-between h-16">
+// //           {/* Logo and Brand */}
+// //           <div className="flex-shrink-0 flex items-center">
+// //             <Link to="/" className="text-white text-2xl font-bold">
+// //               DDAS
+// //             </Link>
+// //           </div>
+
+// //           {/* Desktop Menu */}
+// //           <div className="hidden md:flex items-center space-x-8">
+// //             <Link to="/" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+// //               Home
+// //             </Link>
+// //             <Link to="/about" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+// //               About Us
+// //             </Link>
+// //             <Link to="/login" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+// //               Login
+// //             </Link>
+// //             <Link to="/signup" className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+// //               Sign Up
+// //             </Link>
+// //           </div>
+
+// //           {/* Mobile Menu Button */}
+// //           <div className="md:hidden">
+// //             <button
+// //               onClick={toggleMobileMenu}
+// //               className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-blue-200 focus:outline-none"
+// //             >
+// //               <svg
+// //                 className="h-6 w-6"
+// //                 stroke="currentColor"
+// //                 fill="none"
+// //                 viewBox="0 0 24 24"
+// //               >
+// //                 {isMobileMenuOpen ? (
+// //                   <path
+// //                     strokeLinecap="round"
+// //                     strokeLinejoin="round"
+// //                     strokeWidth="2"
+// //                     d="M6 18L18 6M6 6l12 12"
+// //                   />
+// //                 ) : (
+// //                   <path
+// //                     strokeLinecap="round"
+// //                     strokeLinejoin="round"
+// //                     strokeWidth="2"
+// //                     d="M4 6h16M4 12h16M4 18h16"
+// //                   />
+// //                 )}
+// //               </svg>
+// //             </button>
+// //           </div>
+// //         </div>
+// //       </div>
+         
+// //       {/* Mobile Menu */}
+// //       {isMobileMenuOpen && (
+// //         <div className="md:hidden">
+// //           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-700">
+// //             <Link    
+// //               to="/" 
+// //               className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+// //             >
+// //               Home
+// //             </Link>
+// //             <Link
+// //               to="/about"
+// //               className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+// //             >
+// //               About Us
+// //             </Link>
+// //             <Link
+// //               to="/login"
+// //               className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+// //             >
+// //               Login
+// //             </Link>
+// //             <Link
+// //               to="/signup"
+// //               className="bg-white text-blue-600 hover:bg-blue-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+// //             >
+// //               Sign Up
+// //             </Link>
+// //           </div>
+// //         </div>
+// //       )}
+// //     </nav>
+// //   );
+// // }
+
+// // export default Navbar;
+
+
+
 // import { useState } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
 
 // function Navbar() {
 //   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 //   const navigate = useNavigate();
+//   const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
+//   const userId = localStorage.getItem('userId');
 
 //   const toggleMobileMenu = () => {
 //     setIsMobileMenuOpen(!isMobileMenuOpen);
+//   };
+
+//   const handleLogout = () => {
+//     localStorage.removeItem('token');
+//     localStorage.removeItem('userId');
+//     navigate('/login');
 //   };
 
 //   return (
@@ -28,12 +146,36 @@
 //             <Link to="/about" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
 //               About Us
 //             </Link>
-//             <Link to="/login" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-//               Login
-//             </Link>
-//             <Link to="/signup" className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-//               Sign Up
-//             </Link>
+            
+
+//             {isAuthenticated ? (
+//               <>
+//                   <Link to={`/teams/create/${userId}`} className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+//                     Create Teams
+//                   </Link>
+//                   <Link to="/teams/join" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+//                     Join Team
+//                   </Link>
+//                   <Link to="/teams" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+//                     My Teams
+//                   </Link>
+//                   <button
+//                     onClick={handleLogout}
+//                     className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+//                     >
+//                     Logout
+//                   </button>
+//               </>
+//             ) : (
+//               <>
+//                 <Link to="/login" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+//                   Login
+//                 </Link>
+//                 <Link to="/signup" className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+//                   Sign Up
+//                 </Link>
+//               </>
+//             )}
 //           </div>
 
 //           {/* Mobile Menu Button */}
@@ -68,13 +210,13 @@
 //           </div>
 //         </div>
 //       </div>
-         
+
 //       {/* Mobile Menu */}
 //       {isMobileMenuOpen && (
 //         <div className="md:hidden">
 //           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-700">
-//             <Link    
-//               to="/" 
+//             <Link
+//               to="/"
 //               className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
 //             >
 //               Home
@@ -85,18 +227,29 @@
 //             >
 //               About Us
 //             </Link>
-//             <Link
-//               to="/login"
-//               className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-//             >
-//               Login
-//             </Link>
-//             <Link
-//               to="/signup"
-//               className="bg-white text-blue-600 hover:bg-blue-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-//             >
-//               Sign Up
-//             </Link>
+//             {isAuthenticated ? (
+//               <button
+//                 onClick={handleLogout}
+//                 className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left"
+//               >
+//                 Logout
+//               </button>
+//             ) : (
+//               <>
+//                 <Link
+//                   to="/login"
+//                   className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+//                 >
+//                   Login
+//                 </Link>
+//                 <Link
+//                   to="/signup"
+//                   className="bg-white text-blue-600 hover:bg-blue-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+//                 >
+//                   Sign Up
+//                 </Link>
+//               </>
+//             )}
 //           </div>
 //         </div>
 //       )}
@@ -106,10 +259,9 @@
 
 // export default Navbar;
 
-
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Users, Plus, LogOut, Home, Info, UserPlus, LogIn, Shield } from 'lucide-react';
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -128,53 +280,93 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+    <nav className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-2xl backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo and Brand */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="text-white text-2xl font-bold">
-              DDAS
+          <div className="flex-shrink-0 flex items-center group">
+            <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
+              <div className="bg-white/20 backdrop-blur-sm p-2 rounded-xl group-hover:bg-white/30 transition-all duration-300">
+                <Shield className="h-8 w-8 text-white" />
+              </div>
+              <span className="text-white text-3xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                DDAS
+              </span>
             </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-              Home
-            </Link>
-            <Link to="/about" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-              About Us
+          <div className="hidden md:flex items-center space-x-2">
+            <Link 
+              to="/" 
+              className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+            >
+              <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              <span>Home</span>
             </Link>
             
+            <Link 
+              to="/about" 
+              className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+            >
+              <Info className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              <span>About Us</span>
+            </Link>
 
             {isAuthenticated ? (
-              <>
-                  <Link to={`/teams/create/${userId}`} className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    Create Teams
-                  </Link>
-                  <Link to="/teams/join" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    Join Team
-                  </Link>
-                  <Link to="/teams" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    My Teams
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-                    >
-                    Logout
-                  </button>
-              </>
+              <div className="flex items-center space-x-2 ml-4">
+                <Link 
+                  to={`/teams/create/${userId}`} 
+                  className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+                >
+                  <Plus className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Create Teams</span>
+                </Link>
+                
+                <Link 
+                  to="/teams/join" 
+                  className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+                >
+                  <UserPlus className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Join Team</span>
+                </Link>
+                
+                <Link 
+                  to="/teams" 
+                  className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+                >
+                  <Users className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>My Teams</span>
+                </Link>
+                
+                <div className="h-6 w-px bg-white/20 mx-2"></div>
+                
+                <button
+                  onClick={handleLogout}
+                  className="group flex items-center space-x-2 bg-white/90 text-blue-600 hover:bg-white hover:shadow-lg px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  <LogOut className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Logout</span>
+                </button>
+              </div>
             ) : (
-              <>
-                <Link to="/login" className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                  Login
+              <div className="flex items-center space-x-2 ml-4">
+                <Link 
+                  to="/login" 
+                  className="group flex items-center space-x-2 text-white/90 hover:text-white hover:bg-white/10 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm"
+                >
+                  <LogIn className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Login</span>
                 </Link>
-                <Link to="/signup" className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                  Sign Up
+                
+                <Link 
+                  to="/signup" 
+                  className="group flex items-center space-x-2 bg-white/90 text-blue-600 hover:bg-white hover:shadow-lg px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  <UserPlus className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Sign Up</span>
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
@@ -182,30 +374,13 @@ function Navbar() {
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-blue-200 focus:outline-none"
+              className="inline-flex items-center justify-center p-3 rounded-xl text-white hover:text-white hover:bg-white/10 focus:outline-none transition-all duration-300 backdrop-blur-sm"
             >
-              <svg
-                className="h-6 w-6"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -213,40 +388,90 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-700">
+        <div className="md:hidden absolute w-full bg-gradient-to-b from-blue-700/95 to-indigo-700/95 backdrop-blur-lg border-t border-white/10 shadow-2xl">
+          <div className="px-4 pt-4 pb-6 space-y-2">
             <Link
               to="/"
-              className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+              className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              Home
+              <Home className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+              <span>Home</span>
             </Link>
+            
             <Link
               to="/about"
-              className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+              className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              About Us
+              <Info className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+              <span>About Us</span>
             </Link>
+            
             {isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left"
-              >
-                Logout
-              </button>
+              <>
+                <div className="h-px bg-white/20 my-3"></div>
+                
+                <Link
+                  to={`/teams/create/${userId}`}
+                  className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Plus className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Create Teams</span>
+                </Link>
+                
+                <Link
+                  to="/teams/join"
+                  className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <UserPlus className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Join Team</span>
+                </Link>
+                
+                <Link
+                  to="/teams"
+                  className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Users className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>My Teams</span>
+                </Link>
+                
+                <div className="h-px bg-white/20 my-3"></div>
+                
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="group flex items-center space-x-3 bg-white/90 text-blue-600 hover:bg-white px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300 w-full"
+                >
+                  <LogOut className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Logout</span>
+                </button>
+              </>
             ) : (
               <>
+                <div className="h-px bg-white/20 my-3"></div>
+                
                 <Link
                   to="/login"
-                  className="text-white hover:bg-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  className="group flex items-center space-x-3 text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Login
+                  <LogIn className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Login</span>
                 </Link>
+                
                 <Link
                   to="/signup"
-                  className="bg-white text-blue-600 hover:bg-blue-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  className="group flex items-center space-x-3 bg-white/90 text-blue-600 hover:bg-white px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Sign Up
+                  <UserPlus className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  <span>Sign Up</span>
                 </Link>
               </>
             )}

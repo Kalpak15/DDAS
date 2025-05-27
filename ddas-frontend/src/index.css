@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -8,6 +8,25 @@
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    text-align: left !important; /* Optional if needed */
+    text-align: left !important; 
   }
-  
+   */
+
+   @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  width: 100% !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}

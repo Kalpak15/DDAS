@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import TeamCreation from './pages/TeamCreation';
 import JoinTeam from './pages/JoinTeam';
 import TeamsSection from './pages/TeamsSection';
+import Chat from './pages/Chat'
 import TeamDashboard from './pages/TeamDashboard';
 // import OTPVerification from "./pages/OTPverification";
 import toast from 'react-hot-toast';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/teams/join" element={<JoinTeam />} />
             <Route path="/teams" element={<TeamsSection />} />
             <Route path="/teams/:teamId" element={<TeamDashboard />} />
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </div>
       </div>

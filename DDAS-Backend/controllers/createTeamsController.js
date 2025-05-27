@@ -50,6 +50,7 @@ const User = require('../models/UserModel');
 const Team = require('../models/TeamSchema');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt')
+const mongoose =require('mongoose')
 
 
 const transporter = nodemailer.createTransport({
@@ -167,16 +168,32 @@ const joinTeam = async (req, res) => {
 
 
 const getMyTeams = async (req, res) => {
+  // try {
+  //   const userId = req.user.userId;
+  //   const teams = await Team.find({ members: userId })
+  //     .populate('members', 'email')
+  //     .populate('createdBy', 'email');
+  //   res.status(200).json({ teams });
+  // } catch (error) {
+  //   console.error('Error fetching teams:', error);
+  //   res.status(500).json({ message: 'Server error', error: error.message });
+  // }
+
   try {
-    const userId = req.user.userId;
-    const teams = await Team.find({ members: userId })
-      .populate('members', 'email')
-      .populate('createdBy', 'email');
-    res.status(200).json({ teams });
-  } catch (error) {
-    console.error('Error fetching teams:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
+        const userId = req.user.userId;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            console.error('Invalid userId:', userId);
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        const teams = await Team.find({ members: userId })
+            .populate('members', 'email')
+            .populate('createdBy', 'email');
+        res.status(200).json({ teams: teams || [] });
+    } catch (error) {
+        console.error('Error fetching teams:', error.stack);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
 module.exports = { createTeams, joinTeam, getMyTeams };

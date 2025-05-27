@@ -11,6 +11,7 @@ const TeamCreation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   
+  const PORT=import.meta.env.VITE_APP_API_URL 
   // Handle adding a new email input field
   const addEmailField = () => {
     setEmails([...emails, '']);
@@ -52,7 +53,7 @@ const TeamCreation = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:5050/v1/teams/create/${userId || localStorage.getItem('userId')}`,
+        `${PORT}/v1/teams/create/${userId || localStorage.getItem('userId')}`,
         {
           teamName: teamName.trim() || 'Default Team',
           memberEmails: validEmails,

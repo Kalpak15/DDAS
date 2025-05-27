@@ -12,6 +12,8 @@ function ForgotPassword() {
   const [timer, setTimer] = useState(300); // 5 minutes in seconds
   const navigate = useNavigate();
 
+  const PORT=import.meta.env.VITE_APP_API_URL
+
   useEffect(() => {
     let interval;
     if (step === 2 && timer > 0) {
@@ -32,7 +34,7 @@ function ForgotPassword() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5050/v1/auth/forgot-password",
+        `${PORT}/v1/auth/forgot-password`,
         {
           method: "POST",
           headers: {
@@ -63,7 +65,8 @@ function ForgotPassword() {
     }
     try {
       const response = await fetch(
-        "http://localhost:4000/v1/auth/verify-otp",
+        `${PORT}/v1/auth/verify-otp`,
+        // "http://localhost:4000/v1/auth/verify-otp",
         {
           method: "POST",
           headers: {
@@ -93,7 +96,8 @@ function ForgotPassword() {
     }
     try {
       const response = await fetch(
-        "http://localhost:4000/v1/auth/reset-password",
+        `${PORT}/v1/auth/reset-password`,
+        // "http://localhost:4000/v1/auth/reset-password",
         {
           method: "POST",
           headers: {
@@ -120,7 +124,8 @@ function ForgotPassword() {
   const handleResendOTP = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/v1/auth/resend-otp",
+        `${PORT}/v1/auth/resend-otp`,
+        // "http://localhost:4000/v1/auth/resend-otp",
         {
           method: "POST",
           headers: {

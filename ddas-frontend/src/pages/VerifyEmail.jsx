@@ -17,12 +17,14 @@ function VerifyEmailPage() {
   const location = useLocation();
   const [verificationCode, setVerificationCode] = useState("");
   const  email = new URLSearchParams(location.search).get("email");
+  
+  const PORT=import.meta.env.VITE_APP_API_URL 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5050/v1/auth/verify-email",
+        `${PORT}/v1/auth/verify-email`,
         { email, verificationCode }
       );
       toast.success("Email verified successfully!");

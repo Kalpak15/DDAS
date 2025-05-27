@@ -23,6 +23,8 @@ const SignupForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const PORT=import.meta.env.VITE_APP_API_URL 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -48,7 +50,7 @@ const SignupForm = () => {
         data.append(key, formData[key]);
       });
 
-      const response = await axios.post('http://localhost:5050/v1/auth/signup', data, {
+      const response = await axios.post(`${PORT}/v1/auth/signup`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

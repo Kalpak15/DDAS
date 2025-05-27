@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 const TeamsSection = () => {
     const [teams, setTeams] = useState([]);
     const navigate = useNavigate();
+    
+    const PORT=import.meta.env.VITE_APP_API_URL 
 
     useEffect(() => {
         fetchTeams();
@@ -22,7 +24,7 @@ const TeamsSection = () => {
                 return;
             }
 
-            const response = await axios.get('http://localhost:5050/v1/teams/my-teams', {
+            const response = await axios.get(`${PORT}/v1/teams/my-teams`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setTeams(response.data.teams || []);

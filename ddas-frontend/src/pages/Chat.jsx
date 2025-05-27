@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 
 // Single socket instance
-const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5050', {
+const socket = io(import.meta.env.VITE_APP_API_URL || 'http://localhost:5050', {
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: false

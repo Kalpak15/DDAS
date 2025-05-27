@@ -14,6 +14,8 @@ const TeamDashboard = () => {
     const [files, setFiles] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    
+    const PORT=import.meta.env.VITE_APP_API_URL 
 
     useEffect(() => {
         fetchTeamDetails();
@@ -28,7 +30,7 @@ const TeamDashboard = () => {
                 return;
             }
 
-            const response = await axios.get(`http://localhost:5050/v1/teams/${teamId}`, {
+            const response = await axios.get(`${PORT}/v1/teams/${teamId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -54,7 +56,7 @@ const TeamDashboard = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post(`http://localhost:5050/v1/teams/${teamId}/upload`, formData, {
+            const response = await axios.post(`${PORT}/v1/teams/${teamId}/upload`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
@@ -91,7 +93,7 @@ const TeamDashboard = () => {
     const handleDownload = async (fileId, fileName) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get(`http://localhost:5050/v1/teams/${teamId}/download/${fileId}`, {
+            const response = await axios.get(`${PORT}/v1/teams/${teamId}/download/${fileId}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob',
             });
@@ -161,7 +163,7 @@ const TeamDashboard = () => {
         try {
             const token = localStorage.getItem('token');
             console.log('Removing file:', { teamId, fileId, token });
-            await axios.delete(`http://localhost:5050/v1/teams/${teamId}/files/${fileId}`, {
+            await axios.delete(`${PORT}/v1/teams/${teamId}/files/${fileId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

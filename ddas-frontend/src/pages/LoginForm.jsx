@@ -10,11 +10,14 @@ import { Database, Lock, Mail, Eye, EyeOff, Shield, ArrowRight } from 'lucide-re
 const LoginForm = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
+  
+  const PORT=import.meta.env.VITE_APP_API_URL 
+
 
   // Your exact original logic - unchanged
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5050/v1/auth/login', values);
+      const response = await axios.post(`${PORT}/v1/auth/login`, values);
       
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);

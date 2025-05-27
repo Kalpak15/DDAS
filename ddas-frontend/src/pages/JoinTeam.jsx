@@ -8,6 +8,8 @@ const JoinTeam = () => {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  
+  const PORT=import.meta.env.VITE_APP_API_URL 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +25,7 @@ const JoinTeam = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5050/v1/teams/join',
+        `${PORT}/v1/teams/join`,
         { teamName, password },
         { headers: { Authorization: `Bearer ${token}` } }
       );

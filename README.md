@@ -1,6 +1,15 @@
-# ZeroDup - Data Duplication Alert System
+# ZeroDup - Data Download Duplication Alert System
 
-![DDAS Banner](https://via.placeholder.com/800x200/2563eb/ffffff?text=DDAS+-+Smart+File+Management+System)
+<div align="center">
+  <img src="https://raw.githubusercontent.com/yourusername/ddas/main/assets/ddas-logo.svg" alt="DDAS Logo" width="120" height="120">
+  
+  **Smart File Management • Duplicate Detection • Team Collaboration**
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+  [![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
+  [![Express](https://img.shields.io/badge/Express-4.x-green.svg)](https://expressjs.com/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green.svg)](https://mongodb.com/)
+</div>
 
 ## 🚀 Overview
 
@@ -24,7 +33,7 @@ In today's collaborative digital workspace, teams often waste valuable storage a
 - **Team Creation**: Users can create and manage teams
 - **Role-Based Access**: Team creators have upload privileges, all members can download
 - **Integrated Chat**: Real-time communication within teams
-- **Secure Collaboration**: JWT-based authentication ensures data privacy
+- **Secure Authentication**: Industry-standard security ensures data privacy
 
 ### ⚡ Real-Time Features
 - **Smart Alerts**: Instant notifications when attempting to download already-accessed files
@@ -50,14 +59,14 @@ In today's collaborative digital workspace, teams often waste valuable storage a
 
 ### Prerequisites
 
-Before running DDAS, make sure you have the following installed:
+Before running DDAS, make sure you have:
 
 - **Node.js** (v14 or higher)
-- **npm** or **yarn**
-- **MongoDB** (local installation or MongoDB Atlas)
-- **Git**
+- **npm** or **yarn** package manager
+- **MongoDB** database (local or cloud)
+- **Git** version control
 
-### Installation
+### Quick Setup
 
 1. **Clone the repository**
    ```bash
@@ -67,99 +76,46 @@ Before running DDAS, make sure you have the following installed:
 
 2. **Install dependencies**
    ```bash
-   # Install backend dependencies
-   cd backend
-   npm install
-   
-   # Install frontend dependencies
-   cd ../frontend
-   npm install
+   # Install all required packages
+   npm run install-all
    ```
 
-3. **Environment Setup**
+3. **Environment Configuration**
    
-   Create a `.env` file in the backend directory:
-   ```env
-   # Database
-   MONGODB_URI=mongodb://localhost:27017/ddas
-   
-   # JWT Secret
-   JWT_SECRET=your-super-secret-jwt-key
-   
-   # Server Configuration
-   PORT=5000
-   NODE_ENV=development
-   
-   # Frontend URL (for CORS)
-   CLIENT_URL=http://localhost:3000
+   Copy the example environment file and configure your settings:
+   ```bash
+   cp .env.example .env
    ```
+   
+   **⚠️ Important:** Configure your environment variables before running the application. See `.env.example` for required settings.
 
 4. **Start the application**
    ```bash
-   # Start backend server (from backend directory)
+   # Development mode
    npm run dev
-   
-   # Start frontend (from frontend directory, in new terminal)
-   npm start
    ```
 
 5. **Access the application**
-   - Frontend: `http://localhost:3000`
-   - Backend API: `http://localhost:5000`
+   - Open your browser and navigate to the local development server
+   - Create your account and start collaborating!
 
 ## 📁 Project Structure
 
 ```
 ddas/
 ├── frontend/                 # React frontend application
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── pages/          # Main application pages
-│   │   ├── services/       # API service functions
-│   │   ├── utils/          # Helper functions
-│   │   └── App.js          # Main application component
-│   └── package.json
-│
-├── backend/                 # Express.js backend application
-│   ├── routes/             # API route definitions
-│   ├── models/             # MongoDB data models
-│   ├── middleware/         # Custom middleware functions
-│   ├── controllers/        # Request handling logic
-│   ├── utils/              # Backend utilities
-│   └── server.js           # Main server file
-│
-└── README.md
+├── backend/                  # Express.js backend application
+├── docs/                     # Documentation files
+├── .env.example             # Environment variables template
+└── README.md                # Project documentation
 ```
 
-## 📚 API Documentation
-
-### Authentication Endpoints
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/profile` - Get user profile
-
-### Team Management
-- `POST /api/teams/create` - Create new team
-- `GET /api/teams/` - Get user's teams
-- `POST /api/teams/join` - Join existing team
-- `GET /api/teams/:id/members` - Get team members
-
-### File Operations
-- `POST /api/files/upload` - Upload file to team
-- `GET /api/files/:id/download` - Download file
-- `GET /api/files/:id/view` - Cloud view file
-- `GET /api/files/duplicates` - Check for duplicates
-
-### Chat System
-- `GET /api/chat/:teamId` - Get team chat history  
-- `POST /api/chat/:teamId` - Send message to team
-
-## 🎮 Usage Guide
+## 🎮 How to Use DDAS
 
 ### 1. Getting Started
 1. **Sign Up**: Create your account with email and password
 2. **Create Team**: Set up your first team for collaboration
-3. **Invite Members**: Share team code with collaborators
+3. **Invite Members**: Share team invitation with collaborators
 
 ### 2. File Management
 1. **Upload Files**: Team creators can upload files in supported formats
@@ -172,93 +128,38 @@ ddas/
 2. **Activity Tracking**: Monitor file access and team activities
 3. **Role Management**: Understand team hierarchy and permissions
 
-## 🔧 Configuration
-
-### Database Configuration
-```javascript
-// MongoDB connection settings
-const mongoConfig = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  maxPoolSize: 10,
-  serverSelectionTimeoutMS: 5000,
-};
-```
-
-### JWT Configuration
-```javascript
-// JWT settings
-const jwtConfig = {
-  secret: process.env.JWT_SECRET,
-  expiresIn: '7d',
-  algorithm: 'HS256'
-};
-```
-
-## 🧪 Testing
-
-Run the test suite to ensure everything works correctly:
-
-```bash
-# Backend tests
-cd backend
-npm test
-
-# Frontend tests  
-cd frontend
-npm test
-
-# Run all tests
-npm run test:all
-```
-
-## 🚀 Deployment
-
-### Production Build
-
-1. **Build frontend**
-   ```bash
-   cd frontend
-   npm run build
-   ```
-
-2. **Set production environment variables**
-   ```env
-   NODE_ENV=production
-   MONGODB_URI=your-production-mongodb-uri
-   JWT_SECRET=your-production-jwt-secret
-   ```
-
-3. **Deploy to your preferred platform**
-   - **Frontend**: Netlify, Vercel, or AWS S3
-   - **Backend**: Heroku, Railway, or AWS EC2
-   - **Database**: MongoDB Atlas
-
 ## 🤝 Contributing
 
-We welcome contributions! Here's how you can help:
+We welcome contributions from the community! Here's how you can help:
+
+### How to Contribute
 
 1. **Fork the repository**
 2. **Create feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to branch** (`git push origin feature/amazing-feature`)
-5. **Open Pull Request**
+3. **Make your changes** and test thoroughly
+4. **Commit changes** (`git commit -m 'Add amazing feature'`)
+5. **Push to branch** (`git push origin feature/amazing-feature`)
+6. **Open Pull Request** with detailed description
 
 ### Development Guidelines
 - Follow existing code style and conventions
 - Write meaningful commit messages  
 - Add tests for new features
 - Update documentation as needed
+- Ensure all tests pass before submitting
 
-## 🐛 Known Issues & Limitations
+### Areas Where We Need Help
+- 🐛 Bug fixes and improvements
+- 📚 Documentation enhancements
+- 🌐 Internationalization/Localization
+- 🎨 UI/UX improvements
+- ⚡ Performance optimizations
 
-- Currently supports limited file types (txt, Excel, PDF, Word, PNG, JPG)
-- Cloud viewing may have limitations with very large files
-- Real-time features require stable internet connection
+## 🌟 Features in Development
 
-## 🔮 Future Enhancements
+We're constantly working to improve DDAS. Here's what's coming:
 
-- [ ] Support for additional file formats (video, audio, etc.)
+- [ ] Support for additional file formats
 - [ ] Advanced analytics and reporting
 - [ ] File versioning system
 - [ ] Integration with cloud storage providers
@@ -266,40 +167,53 @@ We welcome contributions! Here's how you can help:
 - [ ] Advanced search and filtering
 - [ ] Automated file organization
 
+## 🐛 Known Limitations
+
+- Currently supports specific file types (txt, Excel, PDF, Word, PNG, JPG)
+- Cloud viewing optimized for standard file sizes
+- Real-time features require stable internet connection
+
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for complete details.
 
 ## 🙏 Acknowledgments
 
-- React team for the amazing frontend framework
+Special thanks to:
+- The React team for the amazing frontend framework
 - Express.js community for the robust backend solution
 - MongoDB for scalable database solutions
-- All contributors and testers who helped improve DDAS
+- All contributors and testers who help improve DDAS
+- Open source community for inspiration and support
 
-## 📞 Support
+## 📞 Support & Community
 
-If you encounter any issues or have questions:
+### Getting Help
 
-1. **Check existing issues** on GitHub
-2. **Create new issue** with detailed description
-3. **Contact support** at support@ddas.com
+- 📚 **Documentation**: Check our [Wiki](https://github.com/yourusername/ddas/wiki) for detailed guides
+- 🐛 **Bug Reports**: [Create an issue](https://github.com/yourusername/ddas/issues) with detailed information
+- 💡 **Feature Requests**: [Request features](https://github.com/yourusername/ddas/issues) we'd love to hear your ideas
+- 💬 **Discussions**: Join our [community discussions](https://github.com/yourusername/ddas/discussions)
+
+### Contact
+
+**Project Maintainer**
+- GitHub: [@yourusername](https://github.com/yourusername)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- Email: your.email@example.com
 
 ---
 
 <div align="center">
 
-**⭐ Star this repository if you found it helpful!**
+**⭐ If DDAS helps your team, please consider starring this repository!**
 
 Made with ❤️ for collaborative teams everywhere
 
-[🌟 Star](https://github.com/yourusername/ddas) • [🐛 Report Bug](https://github.com/yourusername/ddas/issues) • [💡 Request Feature](https://github.com/yourusername/ddas/issues)
+[🌟 Star](https://github.com/yourusername/ddas) • [🐛 Report Bug](https://github.com/yourusername/ddas/issues) • [💡 Request Feature](https://github.com/yourusername/ddas/issues) • [💬 Discussions](https://github.com/yourusername/ddas/discussions)
 
 </div>
+
+## 🔒 Security
+
+We take security seriously. If you discover any security-related issues, please email security@yourdomain.com instead of using the issue tracker.

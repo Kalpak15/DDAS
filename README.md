@@ -96,8 +96,8 @@ Before running DDAS, make sure you have:
 
 ```
 ddas/
-├── frontend/               # React frontend application
-├── backend/                # Express.js backend application
+├── ddas-frontend/               # React frontend application
+├── DDAS-Backend/                # Express.js backend application
 └── README.md               # Project Documentation
 ```
 

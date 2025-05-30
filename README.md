@@ -184,7 +184,3 @@ Made with ❤️ for collaborative teams everywhere
 [🌟 Star](https://github.com/kalpak15/ddas) • [🐛 Report Bug](https://github.com/kalpak15/ddas/issues) • [💡 Request Feature](https://github.com/kalpak15/ddas/issues) • [💬 Discussions](https://github.com/kalpak15/ddas/discussions)
 
 </div>
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for complete details.

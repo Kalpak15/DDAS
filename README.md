@@ -97,10 +97,9 @@ Before running DDAS, make sure you have:
 
 ```
 ddas/
-├── frontend/                 # React frontend application
-├── backend/                  # Express.js backend application                   
-├── .env.example              # Environment variables template
-└── README.md                 # Project documentation
+├── frontend/               # React frontend application
+├── backend/                # Express.js backend application
+└── README.md               # Project Documentation
 ```
 
 ## 🎮 How to Use DDAS
@@ -128,10 +127,10 @@ We welcome contributions from the community! Here's how you can help:
 ### How to Contribute
 
 1. **Fork the repository**
-2. **Create feature branch** (`git checkout -b feature/amazing-feature`)
+2. **Create feature branch** (`git checkout -b feature/new-feature`)
 3. **Make your changes** and test thoroughly
-4. **Commit changes** (`git commit -m 'Add amazing feature'`)
-5. **Push to branch** (`git push origin feature/amazing-feature`)
+4. **Commit changes** (`git commit -m 'Add New feature'`)
+5. **Push to branch** (`git push origin feature/new-feature`)
 6. **Open Pull Request** with detailed description
 
 ### Development Guidelines
@@ -142,9 +141,6 @@ We welcome contributions from the community! Here's how you can help:
 - Ensure all tests pass before submitting
 
 ### Areas Where We Need Help
-- 🐛 Bug fixes and improvements
-- 📚 Documentation enhancements
-- 🌐 Internationalization/Localization
 - 🎨 UI/UX improvements
 - ⚡ Performance optimizations
 
@@ -160,29 +156,22 @@ We're constantly working to improve DDAS. Here's what's coming:
 - [ ] Advanced search and filtering
 - [ ] Automated file organization
 
-## 🐛 Known Limitations
-
-- Currently supports specific file types (txt, Excel, PDF, Word, PNG, JPG)
-- Cloud viewing optimized for standard file sizes
-- Real-time features require stable internet connection
-
-
 
 ## 📞 Support & Community
 
 ### Getting Help
 
-- 📚 **Documentation**: Check our [Wiki](https://github.com/yourusername/ddas/wiki) for detailed guides
-- 🐛 **Bug Reports**: [Create an issue](https://github.com/yourusername/ddas/issues) with detailed information
-- 💡 **Feature Requests**: [Request features](https://github.com/yourusername/ddas/issues) we'd love to hear your ideas
-- 💬 **Discussions**: Join our [community discussions](https://github.com/yourusername/ddas/discussions)
+- 📚 **Documentation**: Check our [Wiki](https://github.com/kalpak15/ddas/wiki) for detailed guides
+- 🐛 **Bug Reports**: [Create an issue](https://github.com/kalpak15/ddas/issues) with detailed information
+- 💡 **Feature Requests**: [Request features](https://github.com/kalpak15/ddas/issues) we'd love to hear your ideas
+- 💬 **Discussions**: Join our [community discussions](https://github.com/kalpak15/ddas/discussions)
 
 ### Contact
 
 **Project Maintainer**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+- GitHub: [@Kalpak15](https://github.com/kalpak15)
+- LinkedIn: [kalpakanilkulkarni](https://www.linkedin.com/in/kalpakanilkulkarni/)
+- Email: kulkarnikalpak15@gmail.com
 
 ---
 
@@ -192,13 +181,9 @@ We're constantly working to improve DDAS. Here's what's coming:
 
 Made with ❤️ for collaborative teams everywhere
 
-[🌟 Star](https://github.com/yourusername/ddas) • [🐛 Report Bug](https://github.com/yourusername/ddas/issues) • [💡 Request Feature](https://github.com/yourusername/ddas/issues) • [💬 Discussions](https://github.com/yourusername/ddas/discussions)
+[🌟 Star](https://github.com/kalpak15/ddas) • [🐛 Report Bug](https://github.com/kalpak15/ddas/issues) • [💡 Request Feature](https://github.com/kalpak15/ddas/issues) • [💬 Discussions](https://github.com/kalpak15/ddas/discussions)
 
 </div>
-
-## 🔒 Security
-
-We take security seriously. If you discover any security-related issues, please email security@yourdomain.com instead of using the issue tracker.
 
 ## 📄 License
 

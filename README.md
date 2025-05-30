@@ -70,7 +70,7 @@ Before running DDAS, make sure you have:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ddas.git
+   git clone https://github.com/kalpak15/ddas.git
    cd ddas
    ```
 
@@ -80,12 +80,6 @@ Before running DDAS, make sure you have:
    npm run install-all
    ```
 
-3. **Environment Configuration**
-   
-   Copy the example environment file and configure your settings:
-   ```bash
-   cp .env.example .env
-   ```
    
    **⚠️ Important:** Configure your environment variables before running the application. See `.env.example` for required settings.
 
@@ -173,18 +167,7 @@ We're constantly working to improve DDAS. Here's what's coming:
 - Cloud viewing optimized for standard file sizes
 - Real-time features require stable internet connection
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for complete details.
-
-## 🙏 Acknowledgments
-
-Special thanks to:
-- The React team for the amazing frontend framework
-- Express.js community for the robust backend solution
-- MongoDB for scalable database solutions
-- All contributors and testers who help improve DDAS
-- Open source community for inspiration and support
 
 ## 📞 Support & Community
 
@@ -217,3 +200,7 @@ Made with ❤️ for collaborative teams everywhere
 ## 🔒 Security
 
 We take security seriously. If you discover any security-related issues, please email security@yourdomain.com instead of using the issue tracker.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for complete details.

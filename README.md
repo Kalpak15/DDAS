@@ -1,9 +1,9 @@
-# ZeroDup - Data Download Duplication Alert System
-
 <div align="center">
-  <img src="https://raw.githubusercontent.com/yourusername/ddas/main/assets/ddas-logo.svg" alt="DDAS Logo" width="120" height="120">
   
-  **Smart File Management • Duplicate Detection • Team Collaboration**
+# 🛡️ ZeroDup
+## Data Download Duplication Alert System
+  
+**Smart File Management • Duplicate Detection • Team Collaboration**
   
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)

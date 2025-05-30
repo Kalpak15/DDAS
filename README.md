@@ -183,3 +183,12 @@ Made with ❤️ for collaborative teams everywhere
 [🌟 Star](https://github.com/Kalpak15/ZeroDup) • [🐛 Report Bug](https://github.com/Kalpak15/ZeroDup/issues) • [💡 Request Feature](https://github.com/Kalpak15/ZeroDup/issues) • 
 
 </div>
+
+
+
+**📄 MIT License**
+
+📄 License
+This project is licensed under the MIT License - free to use, modify, and distribute.
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

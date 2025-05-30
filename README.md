@@ -1,7 +1,7 @@
 <div align="center">
   
 # 🛡️ ZeroDup
-## Data Download Duplication Alert System
+## Data Duplication Alert System
   
 **Smart File Management • Duplicate Detection • Team Collaboration**
   

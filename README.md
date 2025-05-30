@@ -69,7 +69,7 @@ Before running DDAS, make sure you have:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/kalpak15/ddas.git
+   git clone https://github.com/Kalpak15/ZeroDup.git
    cd ddas
    ```
 
@@ -160,9 +160,9 @@ We're constantly working to improve DDAS. Here's what's coming:
 
 ### Getting Help
 
-- 📚 **Documentation**: Check our [Wiki](https://github.com/kalpak15/ddas/wiki) for detailed guides
-- 🐛 **Bug Reports**: [Create an issue](https://github.com/kalpak15/ddas/issues) with detailed information
-- 💡 **Feature Requests**: [Request features](https://github.com/kalpak15/ddas/issues) we'd love to hear your ideas
+- 📚 **Documentation**: Check our [Wiki](https://github.com/Kalpak15/ZeroDup/wiki) for detailed guides
+- 🐛 **Bug Reports**: [Create an issue](https://github.com/Kalpak15/ZeroDup/issues) with detailed information
+- 💡 **Feature Requests**: [Request features](https://github.com/Kalpak15/ZeroDup/issues) we'd love to hear your ideas
 
 
 ### Contact
@@ -180,6 +180,6 @@ We're constantly working to improve DDAS. Here's what's coming:
 
 Made with ❤️ for collaborative teams everywhere
 
-[🌟 Star](https://github.com/kalpak15/ddas) • [🐛 Report Bug](https://github.com/kalpak15/ddas/issues) • [💡 Request Feature](https://github.com/kalpak15/ddas/issues) • 
+[🌟 Star](https://github.com/Kalpak15/ZeroDup) • [🐛 Report Bug](https://github.com/Kalpak15/ZeroDup/issues) • [💡 Request Feature](https://github.com/Kalpak15/ZeroDup/issues) • 
 
 </div>

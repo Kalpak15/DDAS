@@ -81,7 +81,7 @@ Before running DDAS, make sure you have:
    ```
 
    
-   **⚠️ Important:** Configure your environment variables before running the application. See `.env.example` for required settings.
+   **⚠️ Important:** Configure your environment variables before running the application.
 
 4. **Start the application**
    ```bash
@@ -98,10 +98,9 @@ Before running DDAS, make sure you have:
 ```
 ddas/
 ├── frontend/                 # React frontend application
-├── backend/                  # Express.js backend application
-├── docs/                     # Documentation files
-├── .env.example             # Environment variables template
-└── README.md                # Project documentation
+├── backend/                  # Express.js backend application                   
+├── .env.example              # Environment variables template
+└── README.md                 # Project documentation
 ```
 
 ## 🎮 How to Use DDAS

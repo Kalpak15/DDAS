@@ -163,7 +163,7 @@ We're constantly working to improve DDAS. Here's what's coming:
 - 📚 **Documentation**: Check our [Wiki](https://github.com/kalpak15/ddas/wiki) for detailed guides
 - 🐛 **Bug Reports**: [Create an issue](https://github.com/kalpak15/ddas/issues) with detailed information
 - 💡 **Feature Requests**: [Request features](https://github.com/kalpak15/ddas/issues) we'd love to hear your ideas
-- 💬 **Discussions**: Join our [community discussions](https://github.com/kalpak15/ddas/discussions)
+
 
 ### Contact
 
@@ -180,6 +180,6 @@ We're constantly working to improve DDAS. Here's what's coming:
 
 Made with ❤️ for collaborative teams everywhere
 
-[🌟 Star](https://github.com/kalpak15/ddas) • [🐛 Report Bug](https://github.com/kalpak15/ddas/issues) • [💡 Request Feature](https://github.com/kalpak15/ddas/issues) • [💬 Discussions](https://github.com/kalpak15/ddas/discussions)
+[🌟 Star](https://github.com/kalpak15/ddas) • [🐛 Report Bug](https://github.com/kalpak15/ddas/issues) • [💡 Request Feature](https://github.com/kalpak15/ddas/issues) • 
 
 </div>

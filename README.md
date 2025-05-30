@@ -5,7 +5,6 @@
   
 **Smart File Management • Duplicate Detection • Team Collaboration**
   
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
   [![Express](https://img.shields.io/badge/Express-4.x-green.svg)](https://expressjs.com/)
   [![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green.svg)](https://mongodb.com/)
